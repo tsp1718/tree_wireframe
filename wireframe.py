@@ -1,5 +1,5 @@
 # --- Import necessary libraries ---
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from pdfminer.high_level import extract_text
@@ -50,7 +50,16 @@ class APIPayload(BaseModel):
 
 
 # --- FastAPI App Initialization ---
-router = APIRouter()
+app = FastAPI()
+
+# --- CORS Middleware ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Helper Functions (extract_txt, extract_pdf, extract_docx, extract_img_data_uri) ---
 # These functions remain UNCHANGED.
@@ -196,7 +205,7 @@ def generate_llm_response(prompt: str, processed_documents: List[ProcessedDocume
 
 
 # --- FastAPI Endpoint (Docstring Updated) ---
-@router.post("/wireframe")
+@app.post("/wireframe")
 async def process_instruction(
     developer_instructions: str = Form(..., description="Mandatory instructions for the task."),
     payload_json: Optional[str] = Form(None, description="An optional JSON string containing an ordered list 'metadata' for each uploaded file (if any). Each entry can have 'context_level' (optional, defaults to 'medium') and 'document_metadata' (optional). If omitted, files will default to 'medium' context_level and no specific document_metadata."),
@@ -352,3 +361,9 @@ async def process_instruction(
                     await file_upload.close()
                 except Exception:
                     pass
+
+
+# --- Run the App (for local development) ---
+if __name__ == "__main__":
+    print("Starting FastAPI server...")
+    uvicorn.run(app, host="0.0.0.0", port=8000)

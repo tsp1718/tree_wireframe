@@ -1,0 +1,9 @@
+
+services:
+  - type: web
+    name: fastapi-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "./start"
+    plan: free
+    region: frankfurt

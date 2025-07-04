@@ -1,0 +1,10 @@
+﻿pydantic
+uvicorn
+fastapi
+Pillow
+python-dotenv
+langchain
+langchain_google_genai
+python-multipart
+docx2txt
+pdfminer.six

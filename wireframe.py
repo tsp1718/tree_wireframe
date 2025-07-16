@@ -126,23 +126,27 @@ def generate_wireframe_prompt(developer_instructions: str, processed_documents: 
 
 # Prompt generator for the /instruct endpoint
 def generate_instruct_prompt(description: str) -> str:
-    return f"""**Role:** You are an AI assistant specialized in software development tasks. Your goal is to generate wireframe instructions based on the provided description.
+    return f"""
+**Role:** You are an AI assistant specialized in software development tasks. Your goal is to generate wireframe instructions based on the provided description.
 
 ### Instructions (Your Task)
-Based on the following description, provide comprehensive wireframe instructions that cover:
+Based on the following description, provide a **detailed paragraph** of comprehensive wireframe requirements that covers:
 
 - **Screen Title or Page Name**: A clear title for the UI screen/page.
 - **Key UI Elements**: A detailed list of all forms, buttons, input fields, menus, widgets, and other interactive or static UI components.
-- **UI Layout Guidance**: Specific instructions on alignment, positioning, and the use of containers.
+- **UI Layout Guidance**: Specific instructions on alignment, positioning, and the use of containers (e.g., modal, sidebar, card).
 - **Primary User Flow**: A step-by-step narrative describing user interaction.
-- **Responsive Behavior**: Notes on how the UI should adapt to different screen sizes.
-- **Visual or UX Notes**: Suggestions for color schemes, error states, icons, etc.
+- **Responsive Behavior**: Notes on how the UI should adapt to different screen sizes (mobile/tablet/desktop adaptation).
+- **Visual or UX Notes**: Suggestions for color schemes, error states, loading states, icons, tooltips, etc.
+
+The output should be a single, cohesive paragraph for the described screen/page.
 
 **Description:**
 {description}
 
 *Example for inspiration:*
-> *'The wireframe for the 'Login Screen' should include a centered screen title ('Sign In'), two input fields ('Email', 'Password'), a primary button ('Login'), and a 'Forgot Password?' link. Display inline error messages. Layout must be responsive. Consider soft shadows and rounded corners for inputs.'*
+> *"The wireframe for the 'Login Screen' should include a centered screen title at the top ('Sign In'), followed by two input fields labeled 'Email' and 'Password'. A prominent primary button labeled 'Login' should be centered below the inputs. A 'Forgot Password?' link appears below the button. Display inline error messages for invalid email or missing password. Layout must be responsive across mobile and desktop. Consider soft shadows and rounded corners for input fields.
+Highly detailed wireframe paragraph as per instructions above"*
 """.strip()
 
 # General LLM interaction function
